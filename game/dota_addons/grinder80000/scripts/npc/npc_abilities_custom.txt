@@ -272,7 +272,7 @@
 
         "MaxLevel"                      "4"
         "RequiredLevel"                 "3"
-        "LevelsBetweenUpgrades"         "2"
+        "LevelsBetweenUpgrades"         "1"
 
         "precache"
         {
@@ -420,7 +420,7 @@
 
         "MaxLevel"                      "4"
         "RequiredLevel"                 "3"
-        "LevelsBetweenUpgrades"         "2"
+        "LevelsBetweenUpgrades"         "1"
 
         "OnSpellStart" {
             "AttachEffect" {

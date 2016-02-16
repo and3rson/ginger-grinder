@@ -13,17 +13,17 @@
     flow-children: right;
 }
 
-.Skills .Skill {
+.Skill {
     width: 100px;
     text-align: center;
     vertical-align: middle;
     height: 100px;
     margin: 10px;
-    box-shadow: #000000FF 0 0 10px 0;
+    box-shadow: 0 0 10px #000000FF;
     transition: background-image 0.1s ease-in-out 0s, pre-transform-scale2d 0.1s ease-in-out 0s; /*opacity 0.1s ease-in-out 0s, contrast 0.1s ease-in-out 0s, saturation 0.1s ease-in-out 0s, ;*/
 }
 
-.Skills .Skill .Hotkey {
+.Skill .Hotkey {
     background-color: #000000E0;
     padding: 50px 10px 50px 25px;
     margin: -45px 0 0 -15px;
@@ -33,13 +33,13 @@
     transition: opacity 0.1s ease-in-out 0s;
 }
 
-.Skills .Skill .Hotkey Label {
+.Skill .Hotkey Label {
     width: 20px;
     text-align: center;
     transform: rotateZ(-45deg);
 }
 
-.Skills .Skill .ManaCost {
+.Skill .ManaCost {
     background-color: #0055CCD0;
     vertical-align: bottom;
     horizontal-align: right;
@@ -50,7 +50,7 @@
     transition: opacity 0.1s ease-in-out 0s;
 }
 
-.Skills .Skill .SkillLevel {
+.Skill .SkillLevel {
     vertical-align: bottom;
     horizontal-align: left;
     background-color: #000000D0;
@@ -61,7 +61,7 @@
     transition: opacity 0.1s ease-in-out 0s;
 }
 
-.Skills .Skill .Image {
+.Skill .Image {
     background-size: cover;
     background-color: #000;
     width: 100px;
@@ -69,31 +69,31 @@
     transition: background-image 0.1s ease-in-out 0s, pre-transform-scale2d 0.1s ease-in-out 0s; /*opacity 0.1s ease-in-out 0s, contrast 0.1s ease-in-out 0s, saturation 0.1s ease-in-out 0s, ;*/
 }
 
-.Skills .Skill-1 .Image {
+.Skill-1 .Image {
     background-image: url("file://{images}/custom_game/spellicons/projectile.png");
 }
 
-.Skills .Skill-2 .Image {
+.Skill-2 .Image {
     background-image: url("file://{images}/custom_game/spellicons/block.png");
 }
 
-.Skills .Skill-3 .Image {
+.Skill-3 .Image {
     background-image: url("file://{images}/custom_game/spellicons/rush.png");
 }
 
-.Skills .Skill:not(.disabled):hover, .Skills .Skill.CanUpgrade:hover {
+.Skill:not(.disabled):hover, .Skill.CanUpgrade:hover {
     background-size: 110% 110%;
     background-position: center;
     pre-transform-scale2d: 1.1, 1.1;
 }
 
-.Skills .Skill:not(.disabled):hover .Hotkey, .Skills .Skill.CanUpgrade:hover .Hotkey,
-.Skills .Skill:not(.disabled):hover .ManaCost, .Skills .Skill.CanUpgrade:hover .ManaCost,
-.Skills .Skill:not(.disabled):hover .Level, .Skills .Skill.CanUpgrade:hover .level {
+.Skill:not(.disabled):hover .Hotkey, .Skill.CanUpgrade:hover .Hotkey,
+.Skill:not(.disabled):hover .ManaCost, .Skill.CanUpgrade:hover .ManaCost,
+.Skill:not(.disabled):hover .Level, .Skill.CanUpgrade:hover .level {
     opacity: 0;
 }
 
-.Skills .Skill.disabled:not(.CanUpgrade) .Image {
+.Skill.disabled:not(.CanUpgrade) .Image {
     opacity: 0.5;
     /*blur: gaussian(2);*/
     box-shadow: none;
@@ -101,13 +101,13 @@
     saturation: 0;
 }
 
-.Skills .Skill.nomana:not(.CanUpgrade) .Image {
+.Skill.nomana:not(.CanUpgrade) .Image {
     saturation: 0.5;
     opacity: 0.65;
     box-shadow: none;
 }
 
-.Skills .Skill .NoMana {
+.Skill .NoMana {
     transition: opacity 0.1s ease-in-out 0s;
     width: 100px;
     height: 100px;
@@ -115,15 +115,15 @@
     opacity: 0;
 }
 
-.Skills .Skill.nomana .NoMana {
+.Skill.nomana .NoMana {
     opacity: 1;
 }
 
-.Skills .Skill:not(.disabled):hover, .Skills .Skill.CanUpgrade:hover {
+.Skill:not(.disabled):hover, .Skill.CanUpgrade:hover {
     sound: "ui.tick";
 }
 
-.Skills .Upgrade {
+.Upgrade {
     width: 100px;
     height: 100px;
     background-color: #FFFF0040;
@@ -137,15 +137,18 @@
 }
 
 #upgrade-skills {
-    background-color: gradient(linear, 0% 0%, 100% 100%, from(#FF550080), to(#77110080));
+    background-color: gradient(linear, 0% 0%, 100% 100%, from(#FF5500), to(#771100));
     width: 100px;
     height: 100px;
     margin: 10px;
-    transition: opacity 0.2s ease-in-out 0s;
     opacity: 0;
 }
 
 #upgrade-skills.Visible {
+    opacity: 0.75;
+}
+
+#upgrade-skills:hover {
     opacity: 1;
 }
 
@@ -158,7 +161,7 @@
     font-weight: bold;
 }
 
-.Skills .Skill.CanUpgrade .Upgrade {
+.Skill.CanUpgrade .Upgrade {
     opacity: 0.75;
 }
 
@@ -176,6 +179,8 @@
 
 .Bars .HP, .Bars .MP {
     margin: 10px 0 0;
+    box-shadow: 0 0 10px #000000;
+    border: 0px solid #FFFFFF20;
 }
 
 .Bars .Value {

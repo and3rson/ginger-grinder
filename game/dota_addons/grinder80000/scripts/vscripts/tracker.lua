@@ -108,7 +108,7 @@ function Tracker:PrintMVP()
     if mvp_id ~= nil then
         unit = PlayerResource:GetSelectedHeroEntity(mvp_id)
 --        particle_id = ParticleManager:CreateParticle('particles/wr_block/wr_block.vpcf', PATTACH_ROOTBONE_FOLLOW, unit)
-        particle_id = ParticleManager:CreateParticle('particles/mvp/mvp.vpcf', PATTACH_OVERHEAD_FOLLOW, unit)
+        particle_id = ParticleManager:CreateParticle('particles/mvp/mvp.vpcf', PATTACH_ROOTBONE_FOLLOW, unit)
 
         Timers:CreateTimer(5, function()
             ParticleManager:DestroyParticle(particle_id, false)
