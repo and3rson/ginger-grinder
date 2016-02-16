@@ -1,0 +1,33 @@
+// Dota Heroes File
+// NOTE: This is not for creating new heroes, this is for taking a currently existing hero as a template and overriding
+// the specified key-value combinations.  Use override_hero <hero_to_override> for this.
+"DOTAHeroes"
+{
+    //=================================================================================================================
+    // HERO: Templar Assassin
+    //=================================================================================================================
+    "npc_dota_hero_speedranger"
+    {
+        "override_hero"             "npc_dota_hero_windrunner"          // Hero to override
+        "Ability1"                  "pure_skill_wr_projectile"      // Ability 1
+        "Ability2"                  "pure_skill_wr_block"       // Ability 2
+        "Ability3"                  "pure_skill_wr_rush"        // Ability 3
+//        "Ability3"                  "windrunner_powershot_datadriven"
+        "Ability4"                  ""      // Ability 4
+        "Ability5"                  ""      // Ability 5
+        "Ability6"                  ""      // Ability 6
+        "VisionNighttimeRange"      "1800"                                      // Range of vision at night time.
+
+        "AttributePrimary"          "DOTA_ATTRIBUTE_AGILITY"
+        "AttributeBaseStrength"     "22"                                     // Base strength
+        "AttributeStrengthGain"     "5"                                      // Strength bonus per level.
+//        "AttributeBaseIntelligence" "51"                                     // Base intelligence
+        "AttributeBaseIntelligence" "0"                                     // Base intelligence
+        "AttributeIntelligenceGain" "0"                                      // Intelligence bonus per level.
+//        "AttributeBaseAgility"      "20"                                      // Base agility
+        "AttributeBaseAgility"      "0"                                      // Base agility
+        "AttributeAgilityGain"      "0"                                      // Agility bonus per level.
+        "StatusMana"                "100"
+        "StatusManaRegen"            "10"
+    }
+}

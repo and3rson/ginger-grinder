@@ -1,0 +1,485 @@
+// Dota Heroes File
+"DOTAAbilities"
+{
+    "Version"       "1"
+
+    // Rewrite of the Windrunner Powershot
+    // Author: kritth, Pizzalol
+    // Date: 01.10.2015.
+    "pure_skill_wr_projectile"
+    {
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "BaseClass"             "ability_datadriven"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_CHANNELLED"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"
+        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+        "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_CUSTOM"
+        "FightRecapLevel"               "1"
+//        "AbilityTextureName"            "windrunner_powershot"
+
+        "AbilityTextureName"            "projectile"
+
+        "MaxLevel"                      "4"
+        "RequiredLevel"                 "3"
+        "LevelsBetweenUpgrades"         "1"
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastRange"              "1600"
+//        "AbilityCastPoint"              "0.3"
+        "AbilityCastPoint"              "0"
+
+        "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_2"
+
+        // Time
+        //-------------------------------------------------------------------------------------------------------------
+//        "AbilityCooldown"               "9.0 9.0 9.0 9.0"
+//        "AbilityChannelTime"            "1.0 1.0 1.0 1.0"
+
+        // Damage.
+        //-------------------------------------------------------------------------------------------------------------
+//        "AbilityDamage"                 "120 200 280 360"
+
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+//        "AbilityManaCost"               "0 0 0 0"
+        "AbilityManaCost"               "45 40 35 30"
+
+        // Time
+        //-------------------------------------------------------------------------------------------------------------
+//        "AbilityCooldown"               "4.0 3.0 2.0 1.0"
+        "AbilityCooldown"               "0 0 0 0"
+        "AbilityChannelTime"            "1 1 1 1"
+
+        // Damage.
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityDamage"                 "300 450 600 750"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilitySpecial"
+        {
+            "01"
+            {
+                "var_type"              "FIELD_FLOAT"
+                "damage_reduction"      "0 0 0 0"
+            }
+            "02"
+            {
+                "var_type"              "FIELD_FLOAT"
+                "speed_reduction"       "0 0 0 0"
+            }
+            "03"
+            {
+                "var_type"              "FIELD_INTEGER"
+                "arrow_width"           "125 125 125 125"
+            }
+            "04"
+            {
+                "var_type"              "FIELD_INTEGER"
+                "arrow_range"           "1200 1400 1600 1800"
+            }
+            "05"
+            {
+                "var_type"              "FIELD_FLOAT"
+                "arrow_speed"           "1800.0 2400.0 3000.0 3600.0"
+            }
+            "06"
+            {
+                "var_type"              "FIELD_FLOAT"
+                "tree_width"            "75 75 75 75"
+            }
+            "07"
+            {
+                "var_type"              "FIELD_INTEGER"
+                "vision_radius"         "250"
+            }
+            "08"
+            {
+                "var_type"              "FIELD_FLOAT"
+                "vision_duration"       "2.0 2.0 2.0 2.0"
+            }
+            // Extra variable
+            "09"
+            {
+                "var_type"              "FIELD_FLOAT"
+                "charge_interval"       "0.1"
+            }
+            "10"
+            {
+                "var_type"              "FIELD_FLOAT"
+                "damage_per_interval"   "0.1"
+            }
+            "11"
+            {
+                "var_type"              "FIELD_FLOAT"
+                "charge_time"           "1"
+            }
+            "12"
+            {
+                "var_type"              "FIELD_FLOAT"
+                "speed_per_interval"    "0.1"
+            }
+            "12"
+            {
+                "var_type"              "FIELD_FLOAT"
+                "range_per_interval"    "0.1"
+            }
+        }
+
+        // Data driven
+        //-------------------------------------------------------------------------------------------------------------
+        "precache"
+        {
+            "soundfile"                 "soundevents/game_sounds_heroes/game_sounds_windrunner.vsndevts"
+            "soundfile"                 "soundevents/game_sounds_heroes/game_sounds_witchdoctor.vsndevts"
+            "soundfile"                 "soundevents/game_sounds_heroes/game_sounds_phantom_assassin.vsndevts"
+            "soundfile"                 "soundevents/game_sounds_heroes/game_sounds_enchantress.vsndevts"
+            "particle"                  "particles/units/heroes/hero_windrunner/windrunner_spell_powershot.vpcf"
+            "particle"                  "particles/windrunner_spell_powershot_badguys/windrunner_spell_powershot.vpcf"
+            "particle"                  "particles/generic_gameplay/generic_stunned.vpcf"
+//            "particle"                  "particles/generic_gameplay/generic_stunned_old.vpcf"
+        }
+
+        "OnSpellStart"
+        {
+            "FireSound"
+            {
+                "Target"                "CASTER"
+                "EffectName"            "Ability.PowershotPull"
+            }
+
+            // Reset speed and damage variables and set timer for channel
+            "RunScript"
+            {
+                "ScriptFile"            "skills/powershot.lua"
+                "Function"              "powershot_initialize"
+                "Target"                "POINT"
+            }
+
+            "ApplyModifier"
+            {
+                "Target"                "CASTER"
+                "ModifierName"          "modifier_powershot_charge_datadriven"
+            }
+        }
+
+        "OnChannelFinish"
+        {
+            "RemoveModifier"
+            {
+                "Target"                "CASTER"
+                "ModifierName"          "modifier_powershot_charge_datadriven"
+            }
+
+            "RunScript"
+            {
+                "ScriptFile"            "skills/powershot.lua"
+                "Function"              "powershot_start_traverse"
+            }
+        }
+
+        "OnProjectileHitUnit"
+        {
+            "DeleteOnHit"               "false"
+
+            "RunScript"
+            {
+                "ScriptFile"            "skills/powershot.lua"
+                "Function"              "powershot_register_unit"
+            }
+        }
+
+        "Modifiers"
+        {
+            "modifier_damage_tracker" {
+                "Passive"        "1"
+                "IsHidden"      "1"
+
+                "OnDealDamage" {
+                    "RunScript" {
+                        "ScriptFile"        "misc.lua"
+                        "Function"          "OnDealDamage"
+                        "EventName"         "OnDealDamage"
+                        "Damage"          "%attack_damage"
+                    }
+                }
+            }
+            "modifier_powershot_charge_datadriven"
+            {
+                "Duration"              "%charge_time"
+
+                "OnCreated"
+                {
+                    "RunScript"
+                    {
+                        "ScriptFile"    "skills/powershot.lua"
+                        "Function"      "powershot_charge"
+                    }
+                }
+
+                "ThinkInterval"         "%charge_interval"
+                "OnIntervalThink"
+                {
+                    "RunScript"
+                    {
+                        "ScriptFile"    "skills/powershot.lua"
+                        "Function"      "powershot_charge"
+                    }
+                }
+            }
+
+//            "modifier_powershot_stun" {
+//                "Duration"              "10"
+//
+//                "Passive"               "0"
+//                "IsBuff"                "1"
+//                "IsHidden"              "0"
+//
+//                "States" {
+//                    "MODIFIER_STATE_STUNNED" "MODIFIER_STATE_VALUE_ENABLED"
+//                }
+//
+//                "OnCreated" {
+//                    "FireSound" {
+//                        "Target"            "TARGET"
+//                        "EffectName"            "Hero_WitchDoctor.Paralyzing_Cask_Bounce"
+//                    }
+//                    "AttachEffect" {
+//                        "Target"            "TARGET"
+//                        "EffectName"            "particles/generic_gameplay/generic_stunned.vpcf"
+//                        "EffectAttachType"      "follow_origin"
+////                        "EffectAttachType"      "follow_overhead"
+//                        "EffectColorA"          "0 128 255"
+//                    }
+//                }
+//            }
+        }
+    }
+
+    "pure_skill_wr_block" {
+        "AbilityName"               "ability_block"
+        "BaseClass"             "ability_datadriven"
+        "AbilityBehavior"           "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_DONT_CANCEL_MOVEMENT"
+//        "AbilityCooldown"           "10 8 6 4"
+        "AbilityCooldown"           "0 0 0 0"
+//        "AbilityManaCost"           "0 0 0 0"
+        "AbilityTextureName"            "block"
+
+        "AbilityManaCost"               "60 50 40 30"
+
+        "MaxLevel"                      "4"
+        "RequiredLevel"                 "3"
+        "LevelsBetweenUpgrades"         "2"
+
+        "precache"
+        {
+            "soundfile"                 "soundevents/game_sounds_heroes/game_sounds_puck.vsndevts"
+            "soundfile"                 "soundevents/game_sounds_items.vsndevts"
+            "particle"                  "particles/units/heroes/hero_phantom_assassin/phantom_assassin_crit_impact.vpcf"
+//            "particle"                  "particles/units/heroes/hero_windrunner/windrunner_spell_powershot.vpcf"
+        }
+
+        "OnAbilityPhaseStart" {
+            "ApplyModifier" {
+                "TARGET"            "CASTER"
+                "ModifierName"          "modifier_wr_magic_immunity"
+            }
+            "RunScript" {
+                "ScriptFile"        "skills/block.lua"
+                "Function"          "block_start"
+                "Target"            "CASTER"
+            }
+//            "FireSound" {
+//                "Target"            "CASTER"
+//                "EffectName"            "Hero_Puck.Phase_Shift"
+//            }
+        }
+
+        "OnOwnerDied" {
+            "RemoveModifier" {
+                "TARGET"            "CASTER"
+                "ModifierName"          "wr_magic_immunity"
+            }
+
+            // Create a dummy at the dead units position to attach the particle effects
+//            "CreateThinker"
+//            {
+//                "ModifierName" "modifier_violent_death_fx"
+//                "Target" "CASTER"
+//            }
+
+//            "CreateItem"
+//            {
+//                // This Target block is needed to be able to target dead units.
+//                "Target"
+//                {
+//                    "Center" "CASTER"
+//                    "Flags" "DOTA_UNIT_TARGET_FLAG_DEAD"
+//                }
+//
+//                "ItemName"       "item_rapier"
+//                "ItemCount"      "1"
+//                "SpawnRadius"    "1"
+//                "LaunchHeight"   "300"
+//                "LaunchDistance"    "?1 100" // Min Max
+//                "LaunchDuration"    "1.0"
+//                // Optional
+//                //"ItemChargeCount" "1" // This is used for charged consumable items
+//                //"AutoUse" "1"         // If this is uncommented, item will be used when walking over
+//            }
+        }
+
+        "Modifiers" {
+            "modifier_wr_magic_immunity" {
+                "Passive"           "0"
+                "IsBuff"            "1"
+                "IsHidden"          "0"
+                "Duration"          "%duration"
+                "States" {
+                    "MODIFIER_STATE_MAGIC_IMMUNE" "MODIFIER_STATE_VALUE_ENABLED"
+                }
+                "Properties" {
+                    "MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS" "500"
+                }
+                "OnCreated" {
+                    "AttachEffect" {
+                        "Target"            "CASTER"
+        //              "EffectName"            "particles/econ/generic/generic_buff_1/generic_buff_1.vpcf"
+                        "EffectName"            "particles/units/heroes/hero_omniknight/omniknight_repel_buff.vpcf"
+                        "EffectName"            "particles/wr_block/wr_block.vpcf"
+        //              "EffectAttachType"      "follow_overhead"
+                        "EffectAttachType"      "follow_origin"
+                        "EffectAttachType"      "follow_rootbone"
+                        "EffectColorA"          "0 128 255"
+                    }
+//                    "FireSound" {
+//                        "Target"            "CASTER"
+//                        "EffectName"            "Hero_Omniknight.Repel"
+//                    }
+//                    "FireSound" {
+//                        "Target"            "CASTER"
+//                        "EffectName"            "Hero_Puck.Phase_Shift"
+//                    }
+                }
+            }
+//            "modifier_violent_death_fx"
+//            {
+//                "OnCreated"
+//                {
+//                    "AttachEffect"
+//                    {
+//                        "EffectName" "particles/units/heroes/hero_phantom_assassin/phantom_assassin_crit_impact.vpcf"
+//                        "EffectAttachType" "follow_origin"
+//                        "Target" "TARGET"
+//                    }
+//                }
+//            }
+        }
+        "AbilitySpecial"
+        {
+            "01"
+            {
+                "var_type"              "FIELD_FLOAT"
+                "duration"              "0.75 1 1.25 1.5"
+            }
+        }
+    }
+
+    "pure_skill_wr_rush"
+    {
+    "precache"
+        {
+            "particlefile"              "particles/units/heroes/hero_magnataur.pcf"
+            "particle"                  "particles/wr_block/wr_block.vpcf"
+        }
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityName"               "ability_rush"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_POINT"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"
+        "BaseClass"                     "magnataur_skewer"
+        "AbilityTextureName"            "rush"
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "0.0 0.0 0.0 0.0"
+
+        // Time
+        //-------------------------------------------------------------------------------------------------------------
+//        "AbilityCooldown"               "20.0 16.0 12.0 8.0"
+        "AbilityCooldown"               "0 0 0 0"
+
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+//        "AbilityManaCost"               "0 0 0 0"
+        "AbilityManaCost"               "60 50 40 30"
+
+        "MaxLevel"                      "4"
+        "RequiredLevel"                 "3"
+        "LevelsBetweenUpgrades"         "2"
+
+        "OnSpellStart" {
+            "AttachEffect" {
+                "Target"                "CASTER"
+                "EffectName"            "particles/wr_block/wr_block.vpcf"
+                "EffectAttachType"      "follow_rootbone"
+            }
+
+            "FireSound"
+            {
+                "Target"                "CASTER"
+                "EffectName"            "Ability.PowershotPull"
+            }
+        }
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilitySpecial"
+        {
+            "01"
+            {
+                "var_type"              "FIELD_INTEGER"
+                "skewer_speed"              "600 800 1000 1200"
+            }
+            "02"
+            {
+                "var_type"              "FIELD_INTEGER"
+                "skewer_radius"             "125"
+            }
+            "03"
+            {
+                "var_type"              "FIELD_INTEGER"
+                "max_targets"               "1 2 3 4"
+            }
+            "04"
+            {
+                "var_type"              "FIELD_FLOAT"
+                "slow_duration"             "1"
+            }
+            "05"
+            {
+                "var_type"              "FIELD_INTEGER"
+                "slow_pct"              "40 40 40 40"
+            }
+            "06"
+            {
+                "var_type"              "FIELD_INTEGER"
+                "skewer_damage"             "0"
+            }
+            "07"
+            {
+                "var_type"              "FIELD_INTEGER"
+                "range"                 "500 600 700 800"
+            }
+            "08"
+            {
+                "var_type"              "FIELD_INTEGER"
+                "tree_radius"               "200"
+            }
+        }
+    }
+}

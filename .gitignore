@@ -1,0 +1,17 @@
+*.vpk
+*.vpcf_c
+*.vsnd_c
+*.vsndevts_c
+*.vmat_c
+*.vtex_c
+*.vmesh_c
+*.vanim_c
+*.vagrp_c
+*.vmdl_c
+*.bin
+
+# Panorama
+
+*.vcss_c
+*.vjs_c
+*.vxml_c

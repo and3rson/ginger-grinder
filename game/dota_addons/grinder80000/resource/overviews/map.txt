@@ -1,0 +1,8 @@
+map
+{
+	material materials/overviews/map.vmat
+	pos_x -1984
+	pos_y 1984
+	scale 3.875
+}
+
