@@ -18,7 +18,10 @@ function Precache( context )
     PrecacheResource("soundfile", "soundevents/game_sounds_items.vsndevts", context)
     PrecacheResource("soundfile", "particles/wr_block/wr_block.vpcf", context)
     PrecacheResource("soundfile", "soundevents/game_sounds_ui.vsndevts", context)
+    PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_techies.vsndevts", context)
     PrecacheResource("particle", "particles/units/heroes/hero_legion_commander/legion_commander_duel_victory.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_nyx_assassin/nyx_assassin_burrow_inground.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_sandking/sandking_burrowstrike.vpcf", context)
 --    PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_puck.vsndevts", context)
 end
 

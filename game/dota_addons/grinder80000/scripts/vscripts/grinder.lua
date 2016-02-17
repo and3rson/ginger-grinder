@@ -24,6 +24,8 @@ GOLD_FOR_ASSIST = 25
 GOLD_FOR_KILL = 50
 GOLD_FOR_RUNE = 50
 
+LEVEL_DIFF_EXTRA_MUL = 0.5
+
 function Grinder:InitGameMode()
     print(" > Grinder:InitGameMode()")
     print( "Grinder 80K is loaded." )
@@ -329,10 +331,37 @@ function Grinder:OnEntityKilled( keys )
     local killer = EntIndexToHScript(keys.entindex_attacker)
     local victim = EntIndexToHScript(keys.entindex_killed)
 
+    local xp_for_kill = XP_FOR_KILL
+    local gold_for_kill = GOLD_FOR_KILL
+    local xp_for_assist = XP_FOR_ASSIST
+    local gold_for_assist = GOLD_FOR_ASSIST
+
+    print('Victim level: ' .. victim:GetLevel() .. ', killer level: ' .. killer:GetLevel());
+
+    local level_diff = victim:GetLevel() - killer:GetLevel()
+    if level_diff > 0 then
+        -- If victim level is higher than killer's, apply extra XP & GOLD
+        xp_for_kill = xp_for_kill + XP_FOR_KILL * LEVEL_DIFF_EXTRA_MUL * level_diff
+        gold_for_kill = gold_for_kill + GOLD_FOR_KILL * LEVEL_DIFF_EXTRA_MUL * level_diff
+        xp_for_assist = xp_for_assist + XP_FOR_ASSIST * LEVEL_DIFF_EXTRA_MUL * level_diff
+        gold_for_assist = gold_for_assist + GOLD_FOR_ASSIST * LEVEL_DIFF_EXTRA_MUL * level_diff
+    end
+
+    print('!!!!!')
+    print(XP_FOR_KILL)
+    print(GOLD_FOR_KILL)
+    print(XP_FOR_ASSIST)
+    print(GOLD_FOR_ASSIST)
+    print('>>>>>')
+    print(xp_for_kill)
+    print(gold_for_kill)
+    print(xp_for_assist)
+    print(gold_for_assist)
+
     if killer:IsRealHero() and victim:IsRealHero() then
 --        self:LevelUp(killer)
-        killer:AddExperience(XP_FOR_KILL, 100, false, false)
-        killer:ModifyGold(GOLD_FOR_KILL, true, 100)
+        killer:AddExperience(xp_for_kill, 100, false, false)
+        killer:ModifyGold(gold_for_kill, true, 100)
         GameRules.tracker:LogKill(killer:GetPlayerID(), victim:GetPlayerID())
 
         local killer_id = killer:GetPlayerID()
@@ -343,8 +372,8 @@ function Grinder:OnEntityKilled( keys )
                 player = PlayerResource:GetPlayer(i)
                 player_hero = PlayerResource:GetSelectedHeroEntity(i)
                 if player and PlayerResource:HasSelectedHero(i) and player_hero and player:IsAlive() and (player:GetTeam() == killer_team) and (player_id ~= killer_id) then
-                    player_hero:AddExperience(XP_FOR_ASSIST, 100, false, false)
-                    player_hero:ModifyGold(GOLD_FOR_ASSIST, true, 100)
+                    player_hero:AddExperience(xp_for_assist, 100, false, false)
+                    player_hero:ModifyGold(gold_for_assist, true, 100)
                 end
             end
         end
@@ -398,8 +427,19 @@ function Grinder:OnThink()
 --        print('Current state: ' .. self.state)
         if GameRules.state == GRINDER_STATE_BEFORE_ALL_SPAWNED then
             if self:AllPlayersReady() then
-                mul = MAX_PLAYERS / self:GetPlayersCount()
-                print("Players: " .. self:GetPlayersCount() .. "/" .. MAX_PLAYERS .. ", GOLD/XP multiplier = " .. mul)
+--                mul = MAX_PLAYERS / self:GetPlayersCount()
+--                print("Players: " .. self:GetPlayersCount() .. "/" .. MAX_PLAYERS .. ", GOLD/XP multiplier = " .. mul)
+
+                local players_count = self:GetPlayersCount()
+                if players_count <= 6 then
+                    mul = 1
+                elseif players_count <= 4 then
+                    mul = 2
+                elseif players_count <= 2 then
+                    mul = 3
+                end
+
+--                mul = (mul - 1) / 2 + 1
 
                 XP_FOR_ASSIST = XP_FOR_ASSIST * mul
                 XP_FOR_KILL = XP_FOR_KILL * mul

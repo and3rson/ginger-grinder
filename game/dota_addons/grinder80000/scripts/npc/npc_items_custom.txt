@@ -123,4 +123,85 @@
             "01"                        "item_boots2"
         }
     }
+
+    "item_trap"
+    {
+//        "BaseClass"                     "item_lua"
+        "BaseClass"                     "item_datadriven"
+        "ID"                            "10004"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_AOE | DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_CHANNELING | DOTA_ABILITY_BEHAVIOR_NORMAL_WHEN_STOLEN"
+        "Model"                         "models/props_gameplay/red_box.vmdl"
+        "Effect"                        "particles/generic_gameplay/dropped_item.vpcf"
+        "AbilityTextureName"            "item_trap"
+//        "ScriptFile"                    "items/trap.lua"
+
+        "AbilityCastPoint"              "0"
+        "AbilityCooldown"               "0"
+        "AbilityManaCost"               "0"
+        "AbilityCastRange"              "50"
+        "AOEradius"                     "250"
+        "AbilityChannelTime"            "2"
+
+        "ItemCost"                      "20"
+        "ItemStackable"                 "1"
+        "ItemInitialCharges"            "1"
+        "ItemPermanent"                 "0"
+
+        "AbilityCooldown"                  "30"
+        "AbilityManacost"                  "25"
+
+        "OnSpellStart" {
+//            "FireSound" {
+//                "Target"                "CASTER"
+//                "EffectName"            "Hero_Techies.LandMine.Plant"
+//            }
+            "FireSound" {
+                "Target"                "CASTER"
+                "EffectName"            "DOTA_Item.VeilofDiscord.Activate"
+            }
+//            "AttachEffect" {
+//                "Target"                "POINT"
+//                "EffectName"            "particles/units/heroes/hero_nyx_assassin/nyx_assassin_burrow_inground.vpcf"
+//            }
+        }
+
+        "OnChannelSucceeded" {
+            "RunScript" {
+                "ScriptFile"            "items/trap.lua"
+                "Function"              "place_trap"
+                "Target"                "POINT"
+            }
+            "FireSound" {
+                "Target"                "CASTER"
+//                "EffectName"            "Hero_Techies.LandMine.Plant"
+                "EffectName"            "Hero_Techies.StasisTrap.Plant"
+            }
+            "SpendCharge" {
+            }
+        }
+
+        "AbilitySpecial"
+        {
+            "01"
+            {
+                "var_type"              "FIELD_INTEGER"
+                "activation_range"  "250"
+            }
+            "02"
+            {
+                "var_type"              "FIELD_INTEGER"
+                "life_duration"  "60"
+            }
+            "03"
+            {
+                "var_type"              "FIELD_INTEGER"
+                "stun_duration"  "3"
+            }
+            "04"
+            {
+                "var_type"              "FIELD_INTEGER"
+                "damage"  "200"
+            }
+        }
+    }
 }

@@ -3,6 +3,7 @@
     "consumables"
     {
 //        "item"      "item_bottle"
+        "item"      "item_trap"
     }
 
     "attributes"
