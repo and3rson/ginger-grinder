@@ -24,19 +24,22 @@
 }
 
 .Skill .Hotkey {
-    background-color: #000000E0;
-    padding: 50px 10px 50px 25px;
-    margin: -45px 0 0 -15px;
-    transform-origin: 50% 50%;
+/*    background-color: #00000080;*/
+/*    padding: 50px 10px 50px 25px;*/
+/*    margin: -45px 0 0 -15px;*/
+/*    transform-origin: 50% 50%;*/
 /*    margin: -30px 0 0 -30px;*/
-    transform: rotateZ(45deg);
+/*    transform: rotateZ(45deg);*/
     transition: opacity 0.1s ease-in-out 0s;
 }
 
 .Skill .Hotkey Label {
-    width: 20px;
+    color: #FFFFFF;
+    padding: 5px;
+    font-size: 15px;
+/*    width: 20px;*/
     text-align: center;
-    transform: rotateZ(-45deg);
+/*    transform: rotateZ(-45deg);*/
 }
 
 .Skill .ManaCost {
@@ -142,6 +145,7 @@
     height: 100px;
     margin: 10px;
     opacity: 0;
+    border-radius: 50%;
 }
 
 #upgrade-skills.Visible {

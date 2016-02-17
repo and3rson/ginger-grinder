@@ -1,3 +1,5 @@
+require 'timers'
+
 if Grinder == nil then
     Grinder = class({})
 end
@@ -8,6 +10,8 @@ GRINDER_STATE_ROUND_IN_PROGRESS = 2
 GRINDER_STATE_AFTER_ROUND = 3
 GRINDER_STATE_POST_GAME = 4
 
+MAX_PLAYERS = 6
+
 MAX_SCORE = 25
 MAX_LEVEL = 12
 LEVEL_XP_DIFF = 100
@@ -15,6 +19,10 @@ LEVEL_XP_DIFF = 100
 XP_FOR_ASSIST = 25
 XP_FOR_KILL = 50
 XP_FOR_RUNE = 50
+
+GOLD_FOR_ASSIST = 25
+GOLD_FOR_KILL = 50
+GOLD_FOR_RUNE = 50
 
 function Grinder:InitGameMode()
     print(" > Grinder:InitGameMode()")
@@ -110,6 +118,19 @@ function Grinder:AllPlayersReady()
     end
 --    print ('Players: ' .. players .. ', ready: ' .. ready)
     return players > 0 and (players == ready)
+end
+
+function Grinder:GetPlayersCount()
+    local players = 0
+
+    for i=0,DOTA_MAX_TEAM_PLAYERS-1,1 do
+        player = PlayerResource:GetPlayer(i)
+        if player then
+            players = players + 1
+        end
+    end
+--    print ('Players: ' .. players .. ', ready: ' .. ready)
+    return players
 end
 --            print(PlayerResource:GetSelectedHeroEntity(i))
 --            print(PlayerResource:HasSelectedHero(i))
@@ -310,7 +331,8 @@ function Grinder:OnEntityKilled( keys )
 
     if killer:IsRealHero() and victim:IsRealHero() then
 --        self:LevelUp(killer)
-        killer:AddExperience(XP_FOR_KILL, 10, false, false)
+        killer:AddExperience(XP_FOR_KILL, 100, false, false)
+        killer:ModifyGold(GOLD_FOR_KILL, true, 100)
         GameRules.tracker:LogKill(killer:GetPlayerID(), victim:GetPlayerID())
 
         local killer_id = killer:GetPlayerID()
@@ -321,7 +343,8 @@ function Grinder:OnEntityKilled( keys )
                 player = PlayerResource:GetPlayer(i)
                 player_hero = PlayerResource:GetSelectedHeroEntity(i)
                 if player and PlayerResource:HasSelectedHero(i) and player_hero and player:IsAlive() and (player:GetTeam() == killer_team) and (player_id ~= killer_id) then
-                    player_hero:AddExperience(XP_FOR_ASSIST, 10, false, false)
+                    player_hero:AddExperience(XP_FOR_ASSIST, 100, false, false)
+                    player_hero:ModifyGold(GOLD_FOR_ASSIST, true, 100)
                 end
             end
         end
@@ -359,7 +382,9 @@ end
 function Grinder:BountyRunePickupFilter(t)
     print(' > Grinder:BountyRunePickupFilter()')
     -- self:LevelUp(PlayerResource:GetSelectedHeroEntity(t.player_id_const))
-    PlayerResource:GetSelectedHeroEntity(t.player_id_const):AddExperience(XP_FOR_RUNE, 10, false, false)
+    unit = PlayerResource:GetSelectedHeroEntity(t.player_id_const)
+    unit:AddExperience(XP_FOR_RUNE, 100, false, false)
+    unit:ModifyGold(GOLD_FOR_KILL, true, 100)
     return false
 end
 
@@ -373,7 +398,20 @@ function Grinder:OnThink()
 --        print('Current state: ' .. self.state)
         if GameRules.state == GRINDER_STATE_BEFORE_ALL_SPAWNED then
             if self:AllPlayersReady() then
+                mul = MAX_PLAYERS / self:GetPlayersCount()
+                print("Players: " .. self:GetPlayersCount() .. "/" .. MAX_PLAYERS .. ", GOLD/XP multiplier = " .. mul)
+
+                XP_FOR_ASSIST = XP_FOR_ASSIST * mul
+                XP_FOR_KILL = XP_FOR_KILL * mul
+                XP_FOR_RUNE = XP_FOR_RUNE * mul
+
+                GOLD_FOR_ASSIST = GOLD_FOR_ASSIST * mul
+                GOLD_FOR_KILL = GOLD_FOR_KILL * mul
+                GOLD_FOR_RUNE = GOLD_FOR_RUNE * mul
+
                 self:StartNewRoundTimer()
+
+--                self:Poll()
             else
 --                Notifications:TopToAll({text='Waiting for players...', color='yellow', duration=5.0})
             end
@@ -397,6 +435,21 @@ function Grinder:OnThink()
         return nil
     end
     return 0.25
+end
+
+
+function Grinder:Poll()
+    local ctx = self
+
+    CreateHTTPRequest('GET', 'http://canihazip.com/s'):Send(function(result)
+        for k,v in pairs( result ) do
+            print( string.format( "%s : %s\n", k, v ) )
+        end
+
+        Timers:CreateTimer(1, function()
+            ctx:Poll()
+        end)
+    end)
 end
 
 

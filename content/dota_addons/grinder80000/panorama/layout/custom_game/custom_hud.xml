@@ -6,21 +6,22 @@
     <include src="file://{resources}/styles/custom_game/custom_hud.css" />
   </styles>
   <scripts>
+      <include src="file://{resources}/scripts/custom_game/javarama.js" />
       <include src="file://{resources}/scripts/custom_game/main.js" />
   </scripts>
   <script>
-    GameUI.SetDefaultUIEnabled( DotaDefaultUIElement_t.DOTA_DEFAULT_UI_TOP_TIMEOFDAY, false );      //Time of day (clock).
-    //GameUI.SetDefaultUIEnabled( DotaDefaultUIElement_t.DOTA_DEFAULT_UI_TOP_HEROES, false );     //Heroes and team score at the top of the HUD.
-    //GameUI.SetDefaultUIEnabled( DotaDefaultUIElement_t.DOTA_DEFAULT_UI_FLYOUT_SCOREBOARD, false );      //Lefthand flyout scoreboard.
-    GameUI.SetDefaultUIEnabled( DotaDefaultUIElement_t.DOTA_DEFAULT_UI_ACTION_PANEL, false );     //Hero actions UI.
-    //GameUI.SetDefaultUIEnabled( DotaDefaultUIElement_t.DOTA_DEFAULT_UI_ACTION_MINIMAP, false );     //Minimap.
-    GameUI.SetDefaultUIEnabled( DotaDefaultUIElement_t.DOTA_DEFAULT_UI_INVENTORY_PANEL, false );      //Entire Inventory UI
-    //GameUI.SetDefaultUIEnabled( DotaDefaultUIElement_t.DOTA_DEFAULT_UI_INVENTORY_SHOP, false );     //Shop portion of the Inventory.
-    GameUI.SetDefaultUIEnabled( DotaDefaultUIElement_t.DOTA_DEFAULT_UI_INVENTORY_ITEMS, false );      //Player items.
-    GameUI.SetDefaultUIEnabled( DotaDefaultUIElement_t.DOTA_DEFAULT_UI_INVENTORY_QUICKBUY, false );     //Quickbuy.
-    GameUI.SetDefaultUIEnabled( DotaDefaultUIElement_t.DOTA_DEFAULT_UI_INVENTORY_COURIER, false );      //Courier controls.
-    GameUI.SetDefaultUIEnabled( DotaDefaultUIElement_t.DOTA_DEFAULT_UI_INVENTORY_PROTECT, false );      //Glyph.
-    GameUI.SetDefaultUIEnabled( DotaDefaultUIElement_t.DOTA_DEFAULT_UI_INVENTORY_GOLD, false );     //Gold display.
+    GameUI.SetDefaultUIEnabled( DotaDefaultUIElement_t.DOTA_DEFAULT_UI_TOP_TIMEOFDAY,       false );      //Time of day (clock).
+    GameUI.SetDefaultUIEnabled( DotaDefaultUIElement_t.DOTA_DEFAULT_UI_TOP_HEROES,          true );     //Heroes and team score at the top of the HUD.
+    GameUI.SetDefaultUIEnabled( DotaDefaultUIElement_t.DOTA_DEFAULT_UI_FLYOUT_SCOREBOARD,   true );      //Lefthand flyout scoreboard.
+    GameUI.SetDefaultUIEnabled( DotaDefaultUIElement_t.DOTA_DEFAULT_UI_ACTION_PANEL,        false );     //Hero actions UI.
+    GameUI.SetDefaultUIEnabled( DotaDefaultUIElement_t.DOTA_DEFAULT_UI_ACTION_MINIMAP,      true );     //Minimap.
+    GameUI.SetDefaultUIEnabled( DotaDefaultUIElement_t.DOTA_DEFAULT_UI_INVENTORY_PANEL,     true );      //Entire Inventory UI
+    GameUI.SetDefaultUIEnabled( DotaDefaultUIElement_t.DOTA_DEFAULT_UI_INVENTORY_SHOP,      true );     //Shop portion of the Inventory.
+    GameUI.SetDefaultUIEnabled( DotaDefaultUIElement_t.DOTA_DEFAULT_UI_INVENTORY_ITEMS,     true );      //Player items.
+    GameUI.SetDefaultUIEnabled( DotaDefaultUIElement_t.DOTA_DEFAULT_UI_INVENTORY_QUICKBUY,  false );     //Quickbuy.
+    GameUI.SetDefaultUIEnabled( DotaDefaultUIElement_t.DOTA_DEFAULT_UI_INVENTORY_COURIER,   false );      //Courier controls.
+    GameUI.SetDefaultUIEnabled( DotaDefaultUIElement_t.DOTA_DEFAULT_UI_INVENTORY_PROTECT,   false );      //Glyph.
+    GameUI.SetDefaultUIEnabled( DotaDefaultUIElement_t.DOTA_DEFAULT_UI_INVENTORY_GOLD,      true );     //Gold display.
     GameUI.SetDefaultUIEnabled( DotaDefaultUIElement_t.DOTA_DEFAULT_UI_SHOP_SUGGESTEDITEMS, false );      //Suggested items shop panel.
     GameUI.SetRenderBottomInsetOverride(0);
     //GameUI.SetDefaultUIEnabled( DotaDefaultUIElement_t.DOTA_DEFAULT_UI_HERO_SELECTION_TEAMS, false );     //Hero selection Radiant and Dire player lists.
@@ -43,13 +44,15 @@
         </Panel>
         <Panel id="skills" class="Skills">
             <Panel class="Level" style="width: 100px; height: 100px; margin: 10px;">
+                <DOTAHeroImage heroname="npc_dota_hero_windrunner" style="border-radius: 50%; margin: -16px 0; width: 100px; height: 132px; background-size: cover; opacity: 0.25;" heroimagestyle="portrait" />
+                <!-- <Label class="Shade" style="width: 100px; height: 100px; background-color: #000000A0;" /> -->
                 <Label class="Label" text="LEVEL" />
                 <Label class="Value" id="level" text="1" />
             </Panel>
             <Button id="pure_skill_wr_projectile" class="Skill Skill-1" onactivate="UseSkill('pure_skill_wr_projectile')">
                 <Label class="Image" />
                 <Panel class="Hotkey">
-                    <Label text="Q" />
+                    <Label id="pure_skill_wr_projectile_key" text="?" />
                 </Panel>
                 <Label id="pure_skill_wr_projectile_manacost" class="ManaCost" text="?" />
                 <Label id="pure_skill_wr_projectile_level" class="SkillLevel" text="0/4" />
@@ -59,7 +62,7 @@
             <Button id="pure_skill_wr_block" class="Skill Skill-2" onactivate="UseSkill('pure_skill_wr_block')">
                 <Label class="Image" />
                 <Panel class="Hotkey">
-                    <Label text="W" />
+                    <Label id="pure_skill_wr_block_key" text="?" />
                 </Panel>
                 <Label id="pure_skill_wr_rush_manacost" class="ManaCost" text="?" />
                 <Label id="pure_skill_wr_rush_level" class="SkillLevel" text="0/4" />
@@ -69,7 +72,7 @@
             <Button id="pure_skill_wr_rush" class="Skill Skill-3" onactivate="UseSkill('pure_skill_wr_rush')">
                 <Label class="Image" />
                 <Panel class="Hotkey">
-                    <Label text="E" />
+                    <Label id="pure_skill_wr_rush_key" text="?" />
                 </Panel>
                 <Label id="pure_skill_wr_block_manacost" class="ManaCost" text="?" />
                 <Label id="pure_skill_wr_block_level" class="SkillLevel" text="0/4" />
@@ -79,8 +82,18 @@
             <Button id="upgrade-skills" class="Skill" onactivate="switchLearnMode()">
                 <Panel class="">
                     <Label class="Text" text="+" />
+<!--<DropDown oninputsubmit="OnDropDownChanged()">
+  <Label text="Entry 1" id="entry1"/>
+  <Label text="Entry 2" id="entry2"/>
+  <Label text="Entry 3" id="entry3"/>
+  <Label text="Entry 4" id="entry4"/>
+</DropDown>
+<DOTAHeroImage heroname="npc_dota_hero_nevermore" />-->
+<!--                    <DOTAItemImage id="109" itemname="xxxxDaggerinoxxx" />-->
+<!--                    <DOTAAvatarImage steamid="local" />-->
                 </Panel>
             </Button>
+            <Panel></Panel>
         </Panel>
     </Panel>
 </root>

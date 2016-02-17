@@ -2,22 +2,24 @@
 {
     "consumables"
     {
-        "item_bottle"
-        "item_boots"
-        "item_cloak"
-        "item_blink"
+//        "item"      "item_bottle"
     }
 
     "attributes"
     {
+        "item"      "item_boots1"
+        "item"      "item_boots2"
+        "item"      "item_boots3"
     }
 
     "weapons_armor"
     {
+        "item"      "item_cloak"
     }
 
     "misc"
     {
+        "item"      "item_blink"
     }
 
     // Level 1 - Green Recipes

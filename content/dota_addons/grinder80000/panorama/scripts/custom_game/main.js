@@ -4,13 +4,13 @@ function UseSkill(skill) {
     $.Msg('Using skill ', skill);
 
     var player_id = Players.GetLocalPlayer();
-    $.Msg(player_id);
 
     //Players.GetPlayerHeroEntityIndex();
     var selected_entities_ids = Players.GetSelectedEntities(player_id);
     if(selected_entities_ids.length) {
         var caster_id = selected_entities_ids[0];
         var ability_id = Entities.GetAbilityByName(caster_id, skill);
+        $.Msg('CASTER', caster_id, 'SKILL', ability_id);
 
         if (Game.IsInAbilityLearnMode()) {
             Abilities.AttemptToUpgrade(ability_id);
@@ -49,6 +49,7 @@ function getAbilities(entityID) {
             ability.level = Abilities.GetLevel(abilityID);
             ability.manacost = Abilities.GetManaCost(abilityID);
             ability.canBeUpgraded = Abilities.CanAbilityBeUpgraded(abilityID) == AbilityLearnResult_t.ABILITY_CAN_BE_UPGRADED;
+            ability.key = Abilities.GetKeybind(abilityID);
     //        ability.cooldown = Abilities.GetCooldownTime(abilityID);
     //        ability.cooldownRemaining = Abilities.GetCooldownTimeRemaining(abilityID);
             abilities.push(ability);
@@ -72,6 +73,27 @@ function getStats(entityID) {
         level: Entities.GetLevel(entityID),
         points: Entities.GetAbilityPoints(entityID)
     }
+}
+
+function getItems(entityID) {
+    var items = [];
+    for (var i = 0; i < 6; i++) {
+        var itemID = Entities.GetItemInSlot(entityID, i);
+        var item;
+
+        if (itemID != -1) {
+            item = {
+                id: itemID,
+                canBeExecuted: Items.CanBeExecuted(itemID) == -1,
+                charges: Items.GetCurrentCharges(itemID),
+                manacost: Abilities.GetManaCost(itemID),
+            };
+        } else {
+            item = null;
+        }
+        items.push(item);
+    }
+    return items;
 }
 
 var $hp = $('#hp');
@@ -99,6 +121,12 @@ var $abilitiesLevels = [
     $('#pure_skill_wr_rush_level'),
 ];
 
+var $abilitiesKeys = [
+    $('#pure_skill_wr_projectile_key'),
+    $('#pure_skill_wr_block_key'),
+    $('#pure_skill_wr_rush_key'),
+];
+
 var $learn = $('#upgrade-skills');
 
 var $level = $('#level');
@@ -110,6 +138,7 @@ function updateGUI() {
         var bars = getBars(entityID);
         var abilities = getAbilities(entityID);
         var stats = getStats(entityID);
+        var items = getItems(entityID);
 
         var hpFactor = bars.HP / bars.maxHP;
         var mpFactor = bars.MP / bars.maxMP;
@@ -131,6 +160,8 @@ function updateGUI() {
 
                 $abilitiesManaCosts[i].text = ability.manacost;
                 $abilitiesLevels[i].text = ability.level + '/4';
+
+                $abilitiesKeys[i].text = ability.key;
 
                 if (ability.manacost > bars.MP) {
                     $abilities[i].AddClass('nomana');
@@ -157,6 +188,8 @@ function updateGUI() {
     }
 
     $.Schedule(0.033, updateGUI);
+
+//    $.$$.test();
 }
 
 function switchLearnMode() {
@@ -172,4 +205,11 @@ function switchLearnMode() {
 (function() {
     $.Msg('Panorama ready');
     updateGUI();
+
+//    $.Msg(':: ' + $skills);
+//    for (var childKey in $skills.Children()) {
+//        $.Msg(childKey + ' -> ' + $skills.Children()[childKey]);
+//        $.Msg($skills.GetChild(parseInt(childKey)).SetAttributeString('class', 'azaza'));
+//        $.Msg($skills.GetChild(parseInt(childKey)).GetAttributeString('class', '???'));
+//    }
 })();

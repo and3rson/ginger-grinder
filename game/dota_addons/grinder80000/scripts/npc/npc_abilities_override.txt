@@ -35,7 +35,7 @@
     "item_lifesteal" "REMOVE"
     "item_ring_of_regen" "REMOVE"
     "item_sobi_mask" "REMOVE"
-    //"item_boots" "REMOVE"
+    "item_boots" "REMOVE"
     "item_gem" "REMOVE"
     //"item_cloak" "REMOVE"
     "item_talisman_of_evasion" "REMOVE"
@@ -48,7 +48,7 @@
     "item_enchanted_mango" "REMOVE"
     "item_flask" "REMOVE"
     "item_dust" "REMOVE"
-    //"item_bottle" "REMOVE"
+    "item_bottle" "REMOVE"
     "item_ward_observer" "REMOVE"
     "item_ward_sentry" "REMOVE"
     "item_recipe_ward_dispenser" "REMOVE"
@@ -304,4 +304,57 @@
         "ItemDroppable"                 "0"
     }
 
+    // Custom item values
+
+//    "item_bottle" {
+//        "ItemCost"                      "250"
+//    }
+
+    // Boots
+
+    // Cloak
+
+    "item_cloak" {
+        "ItemCost"                      "500"
+
+        "AbilitySpecial"
+        {
+            "01"
+            {
+                "var_type"              "FIELD_INTEGER"
+                "bonus_magical_armor"   "25"
+            }
+            "02"
+            {
+                "var_type"              "FIELD_INTEGER"
+                "tooltip_resist"        "25"
+            }
+        }
+    }
+
+    "item_blink" {
+        "ItemCost"                      "1000"
+
+        "AbilityManaCost"               "50"
+        "AbilityCooldown"               "0"
+
+        "AbilitySpecial"
+        {
+            "01"
+            {
+                "var_type"              "FIELD_INTEGER"
+                "blink_range"           "600"
+            }
+            "02"
+            {
+                "var_type"              "FIELD_FLOAT"
+                "blink_damage_cooldown" "3.0"
+            }
+            "03"
+            {
+                "var_type"              "FIELD_INTEGER"
+                "blink_range_clamp"     "600"
+            }
+        }
+    }
 }

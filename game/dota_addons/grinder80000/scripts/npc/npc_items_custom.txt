@@ -1,3 +1,126 @@
 "DOTAAbilities"
 {
+    "item_boots1"
+    {
+        "BaseClass"                     "item_datadriven"
+        "ID"                            "10001"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "Model"                         "models/props_gameplay/boots_of_speed.mdl"
+        "Effect"                        "particles/generic_gameplay/dropped_item.vpcf"
+        "AbilityTextureName"            "item_boots"
+
+        "ItemCost"                      "100"
+        "AbilitySpecial"
+        {
+            "01"
+            {
+                "var_type"              "FIELD_INTEGER"
+                "bonus_movement_speed"  "50"
+            }
+        }
+
+        "Modifiers"
+        {
+            "modifier_item_boots_datadriven"
+            {
+                "Passive"               "1"
+                "IsHidden"              "0"
+                "Attributes"            "MODIFIER_ATTRIBUTE_MULTIPLE"
+                "Properties"
+                {
+                    "MODIFIER_PROPERTY_MOVESPEED_BONUS_UNIQUE"  "%bonus_movement_speed"
+                }
+            }
+        }
+    }
+
+    "item_boots2"
+    {
+        "BaseClass"                     "item_datadriven"
+        "ID"                            "10002"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "Model"                         "models/props_gameplay/boots_of_speed.mdl"
+        "Effect"                        "particles/generic_gameplay/dropped_item.vpcf"
+        "AbilityTextureName"            "item_boots2"
+
+        "AbilitySpecial"
+        {
+            "01"
+            {
+                "var_type"              "FIELD_INTEGER"
+                "bonus_movement_speed"  "100"
+            }
+        }
+
+        "Modifiers"
+        {
+            "modifier_item_boots_datadriven"
+            {
+                "Passive"               "1"
+                "IsHidden"              "0"
+                "Attributes"            "MODIFIER_ATTRIBUTE_MULTIPLE"
+                "Properties"
+                {
+                    "MODIFIER_PROPERTY_MOVESPEED_BONUS_UNIQUE"  "%bonus_movement_speed"
+                }
+            }
+        }
+    }
+
+    "item_boots3"
+    {
+        "BaseClass"                     "item_datadriven"
+        "ID"                            "10003"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "Model"                         "models/props_gameplay/boots_of_speed.mdl"
+        "Effect"                        "particles/generic_gameplay/dropped_item.vpcf"
+        "AbilityTextureName"            "item_boots3"
+
+        "AbilitySpecial"
+        {
+            "01"
+            {
+                "var_type"              "FIELD_INTEGER"
+                "bonus_movement_speed"  "150"
+            }
+        }
+
+        "Modifiers"
+        {
+            "modifier_item_boots_datadriven"
+            {
+                "Passive"               "1"
+                "IsHidden"              "0"
+                "Attributes"            "MODIFIER_ATTRIBUTE_MULTIPLE"
+                "Properties"
+                {
+                    "MODIFIER_PROPERTY_MOVESPEED_BONUS_UNIQUE"  "%bonus_movement_speed"
+                }
+            }
+        }
+    }
+
+    "item_recipe_boots2"
+    {
+        "BaseClass"                     "item_datadriven"
+        "ID"                            "20002"
+        "ItemRecipe"                    "1"
+        "ItemCost"                      "200"
+        "ItemResult"                    "item_boots2"
+        "ItemRequirements" {
+            "01"                        "item_boots1"
+        }
+    }
+
+    "item_recipe_boots3"
+    {
+        "BaseClass"                     "item_datadriven"
+        "ID"                            "20003"
+        "ItemRecipe"                    "1"
+        "ItemCost"                      "500"
+        "ItemResult"                    "item_boots3"
+        "ItemRequirements" {
+            "01"                        "item_boots2"
+        }
+    }
 }
