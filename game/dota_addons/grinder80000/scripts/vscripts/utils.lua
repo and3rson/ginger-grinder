@@ -4,6 +4,10 @@ function After(delay, context, fn)
 end
 
 function GetPlayerName(entity)
-    print(" > Grinder:GetPlayerName()")
-    return PlayerResource:GetPlayerName(entity:GetPlayerID())
+--    print(" > Grinder:GetPlayerName()")
+    if entity == nil or entity:GetPlayerID() == -1 then
+        return 'Bot'
+    else
+        return PlayerResource:GetPlayerName(entity:GetPlayerID())
+    end
 end

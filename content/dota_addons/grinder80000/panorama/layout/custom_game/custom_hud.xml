@@ -93,7 +93,6 @@
 <!--                    <DOTAAvatarImage steamid="local" />-->
                 </Panel>
             </Button>
-            <Panel></Panel>
         </Panel>
     </Panel>
 </root>

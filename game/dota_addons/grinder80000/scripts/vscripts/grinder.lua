@@ -1,4 +1,5 @@
 require 'timers'
+require 'ai/ai'
 
 if Grinder == nil then
     Grinder = class({})
@@ -11,6 +12,7 @@ GRINDER_STATE_AFTER_ROUND = 3
 GRINDER_STATE_POST_GAME = 4
 
 MAX_PLAYERS = 6
+MAX_TEAMS = 2
 
 MAX_SCORE = 25
 MAX_LEVEL = 12
@@ -29,8 +31,22 @@ LEVEL_DIFF_EXTRA_MUL = 0.5
 function Grinder:InitGameMode()
     print(" > Grinder:InitGameMode()")
     print( "Grinder 80K is loaded." )
+
+    sys_time = GetSystemDate() .. GetSystemTime()
+    d = 1
+    seed = 0
+    for i=#sys_time,1,-1 do
+        n = tonumber(sys_time:sub(i,i))
+        if n ~= nil then
+            seed = seed + d * n
+            d = d * 10
+        end
+    end
+    math.randomseed(seed)
+
     GameRules:SetSameHeroSelectionEnabled(true)
     GameRules:SetHeroRespawnEnabled(false)
+    GameRules:SetHeroSelectionTime(0)
     GameRules:SetCustomGameSetupTimeout(15)
     GameRules:SetPreGameTime(5)
     GameRules:SetPostGameTime(60)
@@ -68,7 +84,7 @@ function Grinder:InitGameMode()
     gameModeEntity:SetUseCustomHeroLevels(true)
     gameModeEntity:SetCustomXPRequiredToReachNextLevel(XP_PER_LEVEL_TABLE)
     gameModeEntity:SetStashPurchasingDisabled(true)
-    gameModeEntity:SetCustomGameForceHero('npc_dota_hero_windrunner')
+--    gameModeEntity:SetCustomGameForceHero('npc_dota_hero_windrunner')
 
     self.timers = {}
     self.delays = {}
@@ -111,11 +127,12 @@ function Grinder:AllPlayersReady()
 
     for i=0,DOTA_MAX_TEAM_PLAYERS-1,1 do
         player = PlayerResource:GetPlayer(i)
-        if player then
+        if player and PlayerResource:IsFakeClient(i) ~= true then
             players = players + 1
-        end
-        if player and PlayerResource:HasSelectedHero(i) and (PlayerResource:GetSelectedHeroEntity(i) ~= nil) then
-            ready = ready + 1
+
+            if player and PlayerResource:HasSelectedHero(i) and (PlayerResource:GetSelectedHeroEntity(i) ~= nil) then
+                ready = ready + 1
+            end
         end
     end
 --    print ('Players: ' .. players .. ', ready: ' .. ready)
@@ -448,6 +465,9 @@ function Grinder:OnThink()
                 GOLD_FOR_ASSIST = GOLD_FOR_ASSIST * mul
                 GOLD_FOR_KILL = GOLD_FOR_KILL * mul
                 GOLD_FOR_RUNE = GOLD_FOR_RUNE * mul
+
+                GameRules.ai = AI()
+                GameRules.ai:Initialize()
 
                 self:StartNewRoundTimer()
 

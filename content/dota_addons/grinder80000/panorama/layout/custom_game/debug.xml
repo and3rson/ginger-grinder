@@ -1,0 +1,15 @@
+<root>
+  <styles>
+    <include src="s2r://panorama/styles/dotastyles.vcss_c" />
+    <include src="s2r://panorama/styles/hero_splash.vcss_c" />
+    <include src="s2r://panorama/styles/popups/settings_slider.vcss_c" />
+    <include src="file://{resources}/styles/custom_game/debug.css" />
+  </styles>
+  <scripts>
+      <include src="file://{resources}/scripts/custom_game/debug.js" />
+  </scripts>
+    <Panel hittest="false" class="Debug">
+        <Label class="Title" text="DEBUG" />
+        <Label id="debug" text="..." />
+    </Panel>
+</root>

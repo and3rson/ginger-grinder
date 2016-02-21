@@ -1,6 +1,6 @@
+require "grinder"
 require "tracker"
 require "broadcaster"
-require "grinder"
 require "utils"
 require "notifications"
 
@@ -22,6 +22,8 @@ function Precache( context )
     PrecacheResource("particle", "particles/units/heroes/hero_legion_commander/legion_commander_duel_victory.vpcf", context)
     PrecacheResource("particle", "particles/units/heroes/hero_nyx_assassin/nyx_assassin_burrow_inground.vpcf", context)
     PrecacheResource("particle", "particles/units/heroes/hero_sandking/sandking_burrowstrike.vpcf", context)
+    PrecacheResource("particle", "particles/units/heroes/hero_lion/lion_spell_finger_of_death_arc_b.vpcf", context)
+    PrecacheResource("particle", "particles/line.vpcf", context)
 --    PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_puck.vsndevts", context)
 end
 

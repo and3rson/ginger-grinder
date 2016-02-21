@@ -1,0 +1,216 @@
+<!-- kv3 encoding:text:version{e21c7f3c-8a33-41c5-9977-a76d3a32aa0d} format:generic:version{7412167c-06e9-4698-aff2-e63eb59037e7} -->
+{
+	_class = "CParticleSystemDefinition"
+	m_bShouldHitboxesFallbackToRenderBounds = false
+	m_flConstantRadius = 8.844500
+	m_ConstantColor =
+	[
+		255,
+		219,
+		108,
+		255,
+	]
+	m_Renderers =
+	[
+		{
+			_class = "C_OP_RenderRopes"
+			m_nSequenceCombineMode = "SEQUENCE_COMBINE_MODE_USE_SEQUENCE_0"
+			m_hTexture = resource:"materials/particle/beam_jagged_01.vtex"
+			m_flRadiusScale = 0.250000
+			m_flFinalTextureScaleU = -1.000000
+			m_flFinalTextureOffsetU = 1.000000
+			m_flTextureVWorldSize = 67.163000
+			m_flTextureVScrollRate = -71.700000
+			m_nMaxTesselation = 10
+			m_nMinTesselation = 10
+			m_bCannotBeRefracted = false
+		},
+	]
+	m_Operators =
+	[
+		{
+			_class = "C_OP_DampenToCP"
+			m_nControlPointNumber = 1
+			m_flRange = 128.000000
+			m_bDisableOperator = true
+		},
+		{
+			_class = "C_OP_DampenToCP"
+			m_flRange = 128.000000
+			m_bDisableOperator = true
+		},
+		{
+			_class = "C_OP_LockToSavedSequentialPath"
+			m_PathParams =
+			{
+				m_flMidPoint = 0.125000
+				m_nEndControlPointNumber = 1
+			}
+			m_bDisableOperator = true
+		},
+		{
+			_class = "C_OP_InterpolateRadius"
+			m_flEndScale = 0.500000
+			m_nOpEndCapState = 0
+			m_bDisableOperator = true
+			m_flStartScale = 2.000000
+		},
+		{
+			_class = "C_OP_Decay"
+		},
+		{
+			_class = "C_OP_BasicMovement"
+			m_bDisableOperator = true
+			m_fDrag = -0.649000
+			m_nMaxConstraintPasses = 0
+		},
+		{
+			_class = "C_OP_ColorInterpolate"
+			m_ColorFade =
+			[
+				76,
+				25,
+				0,
+				255,
+			]
+			m_bDisableOperator = true
+			m_flFadeEndTime = 0.500000
+		},
+		{
+			_class = "C_OP_VectorNoise"
+			m_bAdditive = true
+			m_vecOutputMax =
+			[
+				15.000000,
+				15.000000,
+				15.000000,
+			]
+			m_vecOutputMin =
+			[
+				-15.000000,
+				-15.000000,
+				-15.000000,
+			]
+			m_nFieldOutput = 0
+			m_fl4NoiseScale = 0.700000
+			m_bDisableOperator = true
+		},
+	]
+	m_Initializers =
+	[
+		{
+			_class = "C_INIT_RandomLifeTime"
+			m_fLifetimeMin = 0.010000
+			m_fLifetimeMax = 0.100000
+			m_bDisableOperator = true
+			m_fLifetimeRandExponent = 0.100000
+		},
+		{
+			_class = "C_INIT_RandomRotation"
+			m_bDisableOperator = true
+		},
+		{
+			_class = "C_INIT_PositionPlaceOnGround"
+			m_flMaxTraceLength = 512.000000
+			m_CollisionGroupName = "DEBRIS"
+			m_bIncludeWater = true
+		},
+		{
+			_class = "C_INIT_CreateSequentialPath"
+			m_flNumToAssign = 10.000000
+			m_bSaveOffset = true
+			m_PathParams =
+			{
+				m_nEndControlPointNumber = 1
+				m_flMidPoint = 0.200000
+			}
+			m_bDisableOperator = true
+			m_bLoop = false
+		},
+		{
+			_class = "C_INIT_PositionOffset"
+			m_OffsetMin =
+			[
+				-1.000000,
+				-1.000000,
+				-1.000000,
+			]
+			m_OffsetMax =
+			[
+				1.000000,
+				1.000000,
+				1.000000,
+			]
+			m_bDisableOperator = true
+		},
+		{
+			_class = "C_INIT_InitialVelocityNoise"
+			m_flNoiseScale = 5.000000
+			m_flNoiseScaleLoc = 5.000000
+			m_vecOutputMin =
+			[
+				-1000.000000,
+				-1000.000000,
+				-1000.000000,
+			]
+			m_vecOutputMax =
+			[
+				1000.000000,
+				1000.000000,
+				1000.000000,
+			]
+			m_bDisableOperator = true
+			m_bLocalSpace = true
+		},
+		{
+			_class = "C_INIT_CreateInEpitrochoid"
+			m_nComponent1 = 1
+			m_flRadius1 = 0.500000
+			m_flRadius2 = 0.500000
+			m_flOffset = 1.000000
+			m_flParticleDensity = 1.000000
+			m_bUseCount = true
+			m_bOffsetExistingPos = true
+			m_nComponent2 = -1
+		},
+		{
+			_class = "C_INIT_CreateAlongPath"
+			m_PathParams =
+			{
+				m_nEndControlPointNumber = 1
+			}
+		},
+	]
+	m_Emitters =
+	[
+		{
+			_class = "C_OP_InstantaneousEmitter"
+			m_flStartTimeMax = 0.000000
+			m_nParticlesToEmit = 10
+			m_bDisableOperator = true
+		},
+		{
+			_class = "C_OP_ContinuousEmitter"
+			m_flEmitRate = 10.000000
+		},
+	]
+	m_ForceGenerators =
+	[
+		{
+			_class = "C_OP_RandomForce"
+			m_MinForce =
+			[
+				-400.000000,
+				-400.000000,
+				-400.000000,
+			]
+			m_MaxForce =
+			[
+				400.000000,
+				400.000000,
+				400.000000,
+			]
+			m_bDisableOperator = true
+		},
+	]
+}

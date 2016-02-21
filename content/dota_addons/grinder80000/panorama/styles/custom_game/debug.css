@@ -1,0 +1,22 @@
+.Debug {
+    horizontal-align: right;
+    vertical-align: top;
+    margin-top: 100px;
+    width: 240px;
+//    height: 320px;
+    background-color: #000000FA;
+    padding: 10px;
+    flow-children: down;
+    box-shadow: 0 0px 20px #000000FF;
+}
+
+.Debug Label {
+    color: #FFFFFFFF;
+}
+
+.Debug .Title {
+    background-color: #0055AAFF;
+    margin: -10px -10px 10px;
+    padding: 10px;
+    width: 100%;
+}
